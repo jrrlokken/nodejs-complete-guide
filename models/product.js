@@ -21,11 +21,7 @@ class Product {
     } else {
       dbOp = db.collection("products").insertOne(this);
     }
-    return dbOp
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => console.log(error));
+    return dbOp.then((result) => {}).catch((error) => console.log(error));
   }
 
   static fetchAll() {
@@ -35,7 +31,6 @@ class Product {
       .find()
       .toArray()
       .then((products) => {
-        console.log(products);
         return products;
       })
       .catch((error) => console.log(error));
@@ -48,7 +43,6 @@ class Product {
       .find({ _id: new mongodb.ObjectId(prodId) })
       .next()
       .then((product) => {
-        // console.log(product);
         return product;
       })
       .catch((error) => console.log(error));
