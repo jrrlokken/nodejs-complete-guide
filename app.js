@@ -18,9 +18,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
-  User.findById("61faadd198f4f32f3a54c6fe")
+  User.findById("61fc00828b226bfa97acd8b0")
     .then((user) => {
-      req.user = new User(user.name, user.email, user.cart, user._id);
+      req.user = user;
       next();
     })
     .catch((error) => console.log(error));
@@ -36,6 +36,18 @@ mongoose
     "mongodb+srv://node-complete:node-complete@nodejs-complete.vbaer.mongodb.net/shop?retryWrites=true&w=majority"
   )
   .then((result) => {
+    User.findOne().then((user) => {
+      if (!user) {
+        const user = new User({
+          name: "Joshua",
+          email: "joshua@example.com",
+          cart: {
+            items: [],
+          },
+        });
+        user.save();
+      }
+    });
     app.listen(3000);
     console.log("Database connected");
   })
