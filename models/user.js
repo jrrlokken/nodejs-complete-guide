@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  name: {
+  email: {
     type: String,
     required: true,
   },
-  email: {
+  password: {
     type: String,
     required: true,
   },
@@ -59,10 +59,6 @@ userSchema.methods.clearCart = function () {
   this.cart = { items: [] };
   return this.save();
 };
-
-// userSchema.methods.login = function () {
-//   return console.log('Logged in');
-// };
 
 module.exports = mongoose.model('User', userSchema);
 
