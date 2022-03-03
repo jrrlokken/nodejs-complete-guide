@@ -232,6 +232,30 @@ form {
   color: white;
 }
 
+.user-message {
+  margin: auto;
+  /* width: 90%; */
+  width: 20rem;
+  padding: 0.5rem;
+  border: 1px solid #0355ac;
+  border-radius: 3px;
+  background: #e4efff;
+  color: #00489d;
+  text-align: center;
+}
+
+.user-message--error {
+  border: 1px solid #bb2221;
+  background: #ffd4cd;
+  color: #870000;
+}
+
+.user-message--success {
+  border: 1px solid #007455;
+  background: #d5f0e6;
+  color: #007455;
+}
+
 @media (min-width: 768px) {
   .main-header__nav {
     display: flex;
