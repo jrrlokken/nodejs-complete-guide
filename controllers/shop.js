@@ -63,7 +63,7 @@ exports.postCart = (req, res, next) => {
     .then((product) => {
       return req.user.addToCart(product);
     })
-    .then((result) => res.redirect('/cart'))
+    .then((result) => res.redirect('/'))
     .catch((error) => console.log(error));
 };
 

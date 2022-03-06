@@ -23,6 +23,10 @@ form {
   text-align: center;
 }
 
+.margin-top {
+  margin-top: 30px;
+}
+
 .image {
   max-height: 20rem;
 }
@@ -190,6 +194,7 @@ form {
 }
 
 .card__image img {
+  max-height: 20rem;
   width: 100%;
 }
 
