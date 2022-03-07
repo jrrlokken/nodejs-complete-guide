@@ -1,6 +1,20 @@
 const Product = require('../models/product');
 const { validationResult } = require('express-validator');
 
+exports.getProducts = (req, res, next) => {
+  Product.find({ userId: req.user._id })
+    // .select()
+    // .populate()
+    .then((products) => {
+      res.render('admin/products', {
+        prods: products,
+        pageTitle: 'Admin Products',
+        path: '/admin/products',
+      });
+    })
+    .catch((error) => console.log(error));
+};
+
 exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
     pageTitle: 'Add Product',
@@ -45,7 +59,11 @@ exports.postAddProduct = (req, res, next) => {
       console.log('Created Product');
       res.redirect('/admin/products');
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      const newError = new Error(error);
+      newError.httpStatusCode = 500;
+      return next(newError);
+    });
 };
 
 exports.getEditProduct = (req, res, next) => {
@@ -69,7 +87,11 @@ exports.getEditProduct = (req, res, next) => {
         product: product,
       });
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      const newError = new Error(error);
+      newError.httpStatusCode = 500;
+      return next(newError);
+    });
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -112,8 +134,11 @@ exports.postEditProduct = (req, res, next) => {
         res.redirect('/admin/products');
       });
     })
-
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      const newError = new Error(error);
+      newError.httpStatusCode = 500;
+      return next(newError);
+    });
 };
 
 exports.postDeleteProduct = (req, res, next) => {
@@ -123,19 +148,9 @@ exports.postDeleteProduct = (req, res, next) => {
       console.log('Product Deleted');
       res.redirect('/admin/products');
     })
-    .catch((error) => console.log(error));
-};
-
-exports.getProducts = (req, res, next) => {
-  Product.find({ userId: req.user._id })
-    // .select()
-    // .populate()
-    .then((products) => {
-      res.render('admin/products', {
-        prods: products,
-        pageTitle: 'Admin Products',
-        path: '/admin/products',
-      });
-    })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      const newError = new Error(error);
+      newError.httpStatusCode = 500;
+      return next(newError);
+    });
 };

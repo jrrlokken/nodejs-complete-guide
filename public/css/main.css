@@ -23,6 +23,14 @@ form {
   text-align: center;
 }
 
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+}
+
 .margin-top {
   margin-top: 30px;
 }

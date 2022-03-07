@@ -63,14 +63,18 @@ exports.postSignup = (req, res, next) => {
     })
     .then((result) => {
       res.redirect('/login');
-      return transport.sendMail({
-        to: email,
-        from: 'joshualokken@pm.me',
-        subject: 'Signup succeeded',
-        html: '<h1>You successfully signed up at the Node Shop!</h1>',
-      });
+      // return transport.sendMail({
+      //   to: email,
+      //   from: 'joshualokken@pm.me',
+      //   subject: 'Signup succeeded',
+      //   html: '<h1>You successfully signed up at the Node Shop!</h1>',
+      // });
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      const newError = new Error(error);
+      newError.httpStatusCode = 500;
+      return next(newError);
+    });
 };
 
 exports.getLogin = (req, res, next) => {
@@ -151,7 +155,11 @@ exports.postLogin = (req, res, next) => {
           res.redirect('/login');
         });
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      const newError = new Error(error);
+      newError.httpStatusCode = 500;
+      return next(newError);
+    });
 };
 
 exports.postLogout = (req, res, next) => {
@@ -204,7 +212,11 @@ exports.postReset = (req, res, next) => {
           `,
         });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        const newError = new Error(error);
+        newError.httpStatusCode = 500;
+        return next(newError);
+      });
   });
 };
 
@@ -230,7 +242,11 @@ exports.getResetPassword = (req, res, next) => {
         passwordToken: token,
       });
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      const newError = new Error(error);
+      newError.httpStatusCode = 500;
+      return next(newError);
+    });
 };
 
 exports.postResetPassword = (req, res, next) => {
@@ -257,5 +273,9 @@ exports.postResetPassword = (req, res, next) => {
     .then((result) => {
       res.redirect('/login');
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      const newError = new Error(error);
+      newError.httpStatusCode = 500;
+      return next(newError);
+    });
 };
