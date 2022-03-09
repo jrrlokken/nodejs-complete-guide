@@ -16,7 +16,6 @@ router.post(
     .isLength({ min: 3, max: 50 })
     .trim()
     .withMessage('Title must be 3-50 characters'),
-  body('imageUrl').isURL().withMessage('Image URL must be a valid URL'),
   body('price')
     .isFloat()
     .withMessage('Price must be a number with 2 optional decimal places'),
@@ -36,7 +35,6 @@ router.post(
     .isLength({ min: 3, max: 50 })
     .trim()
     .withMessage('Title must be 3-50 characters'),
-  body('imageUrl').isURL().withMessage('Image URL must be a valid URL'),
   body('price')
     .isFloat()
     .withMessage('Price must be a number with 2 optional decimal places'),

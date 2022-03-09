@@ -5,12 +5,14 @@
         <%- include('../includes/navigation.ejs') %>
         <main class="centered">
           <h1><%= product.title %></h1>
-          <hr>
           <div>
-            <img class="image" src="<%= product.imageUrl %>" alt="<%= product.title %>">
+            <img class="image" src="/<%= product.imageUrl %>" alt="<%= product.title %>">
           </div>
           <h2>$<%= product.price %></h2>
           <p><%= product.description %></p>
-          <%- include('../includes/add-to-cart.ejs') %>
+          <div>
+            <button class="btn btn-secondary" onClick="history.back()">Back</button>
+            <%- include('../includes/add-to-cart.ejs') %>
+          </div>
         </main>
 <%- include('../includes/end.ejs') %>

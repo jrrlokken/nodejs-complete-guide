@@ -1,13 +1,35 @@
+const fs = require('fs');
+const path = require('path');
+const PDFDocument = require('pdfkit');
+
 const Product = require('../models/product');
 const Order = require('../models/order');
 
+const ITEMS_PER_PAGE = 4;
+
 exports.getIndex = (req, res, next) => {
+  const page = +req.params.page;
+  let totalItems;
+
   Product.find()
+    .countDocuments()
+    .then((numProducts) => {
+      totalItems = numProducts;
+      return Product.find()
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE);
+    })
     .then((products) => {
       res.render('shop/index', {
         prods: products,
         pageTitle: 'Shop',
         path: '/',
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPreviousPage: page > 1,
+        nextPage: page + 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
       });
     })
     .catch((error) => {
@@ -142,4 +164,68 @@ exports.getOrders = (req, res, next) => {
       newError.httpStatusCode = 500;
       return next(newError);
     });
+};
+
+exports.getInvoice = (req, res, next) => {
+  const orderId = req.params.orderId;
+  Order.findById(orderId)
+    .then((order) => {
+      if (!order) {
+        return next(new Error('No order found'));
+      }
+      if (order.user.userId.toString() !== req.user._id.toString()) {
+        return next(new Error('Unauthorized'));
+      }
+      const invoiceName = 'invoice-' + orderId + '.pdf';
+      const invoicePath = path.join('data', 'invoices', invoiceName);
+
+      const pdfInvoice = new PDFDocument();
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader(
+        'Content-Disposition',
+        'inline; filename="' + invoiceName + '"'
+      );
+
+      pdfInvoice.pipe(fs.createWriteStream(invoicePath));
+      pdfInvoice.pipe(res);
+
+      pdfInvoice.fontSize(26).text('Invoice', {
+        underline: true,
+        lineGap: 10,
+      });
+
+      let totalPrice = 0;
+      order.products.forEach((p) => {
+        totalPrice += p.quantity * p.product.price;
+        pdfInvoice
+          .fontSize(16)
+          .text(
+            p.product.title + ' - ' + p.quantity + ' x ' + '$' + p.product.price
+          );
+      });
+      pdfInvoice.text('-----------------------', {
+        lineGap: 10,
+      });
+      pdfInvoice.fontSize(26).text('Total: $' + totalPrice.toFixed(2));
+
+      pdfInvoice.end();
+
+      // This works just fine for small files, such as our invoices,
+      // but it may be a better practice to stream the data rather
+      // than loading it all into memory.
+      //
+      // fs.readFile(invoicePath, (error, data) => {
+      //   if (error) {
+      //     return next(error);
+      //   }
+      // res.setHeader('Content-Type', 'application/pdf');
+      // res.setHeader(
+      //   'Content-Disposition',
+      //   'inline; filename="' + invoiceName + '"'
+      // );
+      //   res.send(data);
+      // });
+    })
+    .catch((error) => next(error));
 };

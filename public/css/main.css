@@ -23,16 +23,16 @@ form {
   text-align: center;
 }
 
-.centered-container {
+/* .centered-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 400px;
-}
+} */
 
-.margin-top {
-  margin-top: 30px;
+.container {
+  width: 70vw;
 }
 
 .image {
@@ -88,6 +88,10 @@ form {
 .main-header__item button:hover,
 .main-header__tems button:active {
   color: yellow;
+}
+
+.margin-top {
+  margin-top: 30px;
 }
 
 .mobile-nav {
@@ -216,6 +220,12 @@ form {
   margin: 0 0.25rem;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .btn {
   display: inline-block;
   padding: 0.25rem 1rem;
@@ -231,6 +241,18 @@ form {
 .btn:hover,
 .btn:active {
   background-color: #0355ac;
+  color: white;
+}
+
+.btn-secondary {
+  color: #e48200;
+  background-color: white;
+  border: 1px solid #e48200;
+}
+
+.btn-secondary:hover,
+.btn-secondary:active {
+  background-color: #e48200;
   color: white;
 }
 
@@ -267,6 +289,27 @@ form {
   border: 1px solid #007455;
   background: #d5f0e6;
   color: #007455;
+}
+
+.pagination {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pagination a {
+  text-decoration: none;
+  color: #00489d;
+  padding: 0 0.5rem;
+  /* margin: 0 1rem; */
+  border: 1px solid #00489d;
+  border-radius: 5px;
+}
+
+.pagination a:hover,
+.pagination a:active,
+.pagination a.active {
+  background-color: #00489d;
+  color: white;
 }
 
 @media (min-width: 768px) {
