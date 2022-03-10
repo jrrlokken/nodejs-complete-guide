@@ -312,6 +312,11 @@ form {
   color: white;
 }
 
+.sticky {
+  position: sticky;
+  top: 0;
+}
+
 @media (min-width: 768px) {
   .main-header__nav {
     display: flex;
