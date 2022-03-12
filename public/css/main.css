@@ -298,17 +298,17 @@ form {
 
 .pagination a {
   text-decoration: none;
-  color: #00489d;
-  padding: 0 0.5rem;
-  /* margin: 0 1rem; */
-  border: 1px solid #00489d;
+  color: #e48200;
+  background-color: white;
+  border: 1px solid #e48200;
   border-radius: 5px;
+  padding: 0 0.5rem;
 }
 
 .pagination a:hover,
 .pagination a:active,
 .pagination a.active {
-  background-color: #00489d;
+  background-color: #e48200;
   color: white;
 }
 
